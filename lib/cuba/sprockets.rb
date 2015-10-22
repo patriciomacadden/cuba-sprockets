@@ -13,7 +13,7 @@ module Cuba::Sprockets
   end
 
   def asset_path(file)
-    if ENV['RACK_ENV'] == 'production'
+    if ENV['RACK_ENV'] == 'production' || ENV['RACK_ENV'] == 'staging'
       manifest = ::Sprockets::Manifest.new settings[:sprockets][:manifest_path]
       "#{settings[:sprockets][:path]}/#{manifest.assets[file]}"
     else

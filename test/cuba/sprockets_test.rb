@@ -35,6 +35,16 @@ scope Cuba::Sprockets do
       end
     end
 
+    scope 'when RACK_ENV=staging' do
+      test 'returns the path to the file' do
+        ENV['RACK_ENV'] = 'staging'
+        @app.settings[:sprockets][:manifest_path] = File.join(Dir.pwd, 'test', 'fixtures', 'manifest.json')
+        assert '/assets/application-8dbe1c9019cacfa4af55c075d9c32b59dc0885212a00500ad08eb94001f5764a.css' == @app.asset_path('application.css')
+        ENV['RACK_ENV'] = 'test'
+        @app.settings[:sprockets][:manifest_path] = File.join(Dir.pwd, 'public', 'assets')
+      end
+    end
+
     scope 'when RACK_ENV=development (or test)' do
       test 'returns the path to the file' do
         assert '/assets/application.css' == @app.asset_path('application.css')
